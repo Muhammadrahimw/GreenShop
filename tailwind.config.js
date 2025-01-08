@@ -31,6 +31,7 @@ export default {
 			colors: {
 				primary: "#46A358",
 				blackColor: "#3D3D3D",
+				grayColor: "#EAEAEA",
 			},
 		},
 	},
