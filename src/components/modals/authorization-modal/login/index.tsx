@@ -2,6 +2,7 @@ import {useForm} from "react-hook-form";
 import {useReduxDispatch} from "../../../../hooks/useRedux";
 import {setAuthorizationModalVisibility} from "../../../../redux/modal-slice";
 import {useAxios} from "../../../../hooks/useAxios";
+import useSignIn from "react-auth-kit/hooks/useSignIn";
 
 const Login = () => {
 	let axios = useAxios();
@@ -18,11 +19,22 @@ const Login = () => {
 	let onSubmit = (data: any) => {
 		console.log(data);
 		axios({url: "/user/sign-in", body: data, method: "POST"}).then((data) =>
-			console.log(data)
+			console.log(data.data)
 		);
 		reset();
 		dispatch(setAuthorizationModalVisibility());
 	};
+
+	// let signIn = useSignIn();
+
+	// let handleLogin = () => {
+	// 	let result = signIn({
+	// 		token: "sampleToken",
+	// 		expiresIn: 3600,
+	// 		tokenType: "Bearer",
+	// 		authState: {username: "exampleUser"},
+	// 	});
+	// };
 
 	return (
 		<div className="py-10 px-[2em]">
