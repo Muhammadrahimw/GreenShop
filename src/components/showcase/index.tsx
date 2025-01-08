@@ -16,7 +16,11 @@ const Showcase: React.FC = () => {
 							trendy plants. Use our plants to create an unique Urban Jungle.
 							Order your favorite plants!
 						</p>
-						<button type="button" className="w-[8.75em] h-12 font-bold rounded bg-primary text-base text-white mt-11">SHOP NOW</button>
+						<button
+							type="button"
+							className="w-[8.75em] h-12 font-bold rounded bg-primary text-base text-white mt-11">
+							SHOP NOW
+						</button>
 					</div>
 				</div>
 				<div className="w-full bg-[#F5F5F580] py-[4em] px-10 rounded-sm bg-[url('/src/assets/imgs/bg-image.png')] bg-no-repeat bg-center bg-contain">
@@ -30,7 +34,11 @@ const Showcase: React.FC = () => {
 							trendy plants. Use our plants to create an unique Urban Jungle.
 							Order your favorite plants!
 						</p>
-						<button type="button" className="w-[8.75em] h-12 font-bold rounded bg-primary text-base text-white mt-11">SHOP NOW</button>
+						<button
+							type="button"
+							className="w-[8.75em] h-12 font-bold rounded bg-primary text-base text-white mt-11">
+							SHOP NOW
+						</button>
 					</div>
 				</div>
 				<div className="w-full bg-[#F5F5F580] py-[4em] px-10 rounded-sm bg-[url('/src/assets/imgs/bg-image.png')] bg-no-repeat bg-center bg-contain">
@@ -44,7 +52,11 @@ const Showcase: React.FC = () => {
 							trendy plants. Use our plants to create an unique Urban Jungle.
 							Order your favorite plants!
 						</p>
-						<button type="button" className="w-[8.75em] h-12 font-bold rounded bg-primary text-base text-white mt-11">SHOP NOW</button>
+						<button
+							type="button"
+							className="w-[8.75em] h-12 font-bold rounded bg-primary text-base text-white mt-11">
+							SHOP NOW
+						</button>
 					</div>
 				</div>
 			</Carousel>
