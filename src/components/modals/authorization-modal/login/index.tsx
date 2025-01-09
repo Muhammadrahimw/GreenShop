@@ -15,9 +15,8 @@ const Login = () => {
 	} = useForm();
 
 	let onSubmit = (data: any) => {
-		console.log(data);
 		axios({url: "/user/sign-in", body: data, method: "POST"}).then((data) =>
-			console.log(data.data)
+			console.log(data)
 		);
 		reset();
 		dispatch(setAuthorizationModalVisibility());
