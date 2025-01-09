@@ -30,7 +30,13 @@ const Products = () => {
 				{Array.from({length: 9}, (_, index) => (
 					<div key={index}>
 						<div
-							className={`w-full h-[18.75em] bg-[url('/src/assets/imgs/plant-${index}.png')] bg-no-repeat bg-cover bg-center cursor-pointer`}></div>
+							style={{
+								backgroundImage: `url('/src/assets/imgs/plant-${index}.png')`,
+								backgroundRepeat: "no-repeat",
+								backgroundSize: "contain",
+								backgroundPosition: "center",
+							}}
+							className="w-full h-[18.75em] cursor-pointer"></div>
 						<p className="mt-3">Barberton Daisy</p>
 						<p className="text-[1.15em] font-semibold text-primary">$119.00</p>
 					</div>

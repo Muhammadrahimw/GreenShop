@@ -1,7 +1,9 @@
 import {Slider} from "antd";
+import {useState} from "react";
 
 const Filters = () => {
 	let centerStyle = "flex items-center justify-between gap-4";
+	let [price, setPrice] = useState<number[]>([39, 1230]);
 
 	return (
 		<div className="flex flex-col items-start justify-start">
@@ -56,10 +58,13 @@ const Filters = () => {
 							defaultValue={[39, 1230]}
 							min={0}
 							max={1500}
+							onChange={(e) => setPrice(e)}
 						/>
 						<p className="mt-4">
-							Price:{" "}
-							<span className="font-semibold text-primary">$39 - $1230</span>
+							Price:
+							<span className="font-semibold text-primary">
+								{price[0]}$ - {price[1]}$
+							</span>
 						</p>
 						<button
 							type="button"
