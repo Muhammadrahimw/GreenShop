@@ -1,4 +1,17 @@
+import {useEffect, useState} from "react";
+import {useAxios} from "../../../hooks/useAxios";
+import {PlantTypes} from "../../../@types";
+
 const Products = () => {
+	const [plants, setPlants] = useState<PlantTypes[]>();
+	let axios = useAxios();
+
+	useEffect(() => {
+		axios({url: `/flower/category/house-plants`})
+			.then((response) => setPlants(response.data))
+			.catch((error) => console.log(error));
+	}, []);
+
 	return (
 		<div className="w-full tracking-wide text-blackColor">
 			<div className="flex items-center justify-between gap-4">
@@ -27,36 +40,38 @@ const Products = () => {
 				</div>
 			</div>
 			<div className="grid grid-cols-3 gap-10 mt-10 gap-y-[4.75em]">
-				{Array.from({length: 9}, (_, index) => (
-					<div key={index} className="">
-						<div
-							style={{
-								backgroundImage: `url('/src/assets/imgs/plant-${index}.png')`,
-								backgroundRepeat: "no-repeat",
-								backgroundSize: "cover",
-								backgroundPosition: "center",
-							}}
-							className="w-full h-[18.75em] cursor-pointer hover:border-t-2 hover:border-primary flex items-end justify-center relative group">
-							<div className="absolute flex items-center z-[-1] gap-2 bottom-[-2.75em] group-hover:z-[100] group-hover:bottom-2 transition-all duration-300">
-								<div className="flex items-center justify-center p-1 bg-white rounded w-9 h-9">
-									<img src="/src/assets/icons/basket.svg" alt="basket" />
+				{plants
+					? plants.slice(0, 9).map((value: PlantTypes) => (
+							<div key={value._id}>
+								<div
+									style={{
+										backgroundImage: `url('${value.main_image}')`,
+										backgroundRepeat: "no-repeat",
+										backgroundSize: "cover",
+										backgroundPosition: "center",
+									}}
+									className="w-full h-[18.75em] cursor-pointer hover:border-t-2 hover:border-primary flex items-end justify-center group">
+									<div className="items-center hidden gap-2 mb-2 group-hover:flex">
+										<div className="flex items-center justify-center p-1 bg-white rounded w-9 h-9">
+											<img src="/src/assets/icons/basket.svg" alt="basket" />
+										</div>
+										<div className="flex items-center justify-center p-1 bg-white rounded w-9 h-9">
+											<img src="/src/assets/icons/heart.svg" alt="heart" />
+										</div>
+										<div className="flex items-center justify-center p-1 bg-white rounded w-9 h-9">
+											<img src="/src/assets/icons/search.svg" alt="search" />
+										</div>
+									</div>
 								</div>
-								<div className="flex items-center justify-center p-1 bg-white rounded w-9 h-9">
-									<img src="/src/assets/icons/heart.svg" alt="heart" />
-								</div>
-								<div className="flex items-center justify-center p-1 bg-white rounded w-9 h-9">
-									<img src="/src/assets/icons/search.svg" alt="search" />
+								<div className="bg-white">
+									<p className="mt-3">Barberton Daisy</p>
+									<p className="text-[1.15em] font-semibold text-primary">
+										$119.00
+									</p>
 								</div>
 							</div>
-						</div>
-						<div className="bg-white">
-							<p className="mt-3">Barberton Daisy</p>
-							<p className="text-[1.15em] font-semibold text-primary">
-								$119.00
-							</p>
-						</div>
-					</div>
-				))}
+					  ))
+					: ""}
 			</div>
 		</div>
 	);
