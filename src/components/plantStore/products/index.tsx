@@ -28,17 +28,33 @@ const Products = () => {
 			</div>
 			<div className="grid grid-cols-3 gap-10 mt-10 gap-y-[4.75em]">
 				{Array.from({length: 9}, (_, index) => (
-					<div key={index}>
+					<div key={index} className="">
 						<div
 							style={{
 								backgroundImage: `url('/src/assets/imgs/plant-${index}.png')`,
 								backgroundRepeat: "no-repeat",
-								backgroundSize: "contain",
+								backgroundSize: "cover",
 								backgroundPosition: "center",
 							}}
-							className="w-full h-[18.75em] cursor-pointer"></div>
-						<p className="mt-3">Barberton Daisy</p>
-						<p className="text-[1.15em] font-semibold text-primary">$119.00</p>
+							className="w-full h-[18.75em] cursor-pointer hover:border-t-2 hover:border-primary flex items-end justify-center relative group">
+							<div className="absolute flex items-center z-[-1] gap-2 bottom-[-2.75em] group-hover:z-[100] group-hover:bottom-2 transition-all duration-300">
+								<div className="flex items-center justify-center p-1 bg-white rounded w-9 h-9">
+									<img src="/src/assets/icons/basket.svg" alt="basket" />
+								</div>
+								<div className="flex items-center justify-center p-1 bg-white rounded w-9 h-9">
+									<img src="/src/assets/icons/heart.svg" alt="heart" />
+								</div>
+								<div className="flex items-center justify-center p-1 bg-white rounded w-9 h-9">
+									<img src="/src/assets/icons/search.svg" alt="search" />
+								</div>
+							</div>
+						</div>
+						<div className="bg-white">
+							<p className="mt-3">Barberton Daisy</p>
+							<p className="text-[1.15em] font-semibold text-primary">
+								$119.00
+							</p>
+						</div>
 					</div>
 				))}
 			</div>

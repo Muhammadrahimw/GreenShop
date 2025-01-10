@@ -11,6 +11,10 @@
 	font-family: "Inter";
 }
 
+.tr {
+	transition: 0.4s;
+}
+
 .hover-underline-animation {
 	@apply relative;
 }
