@@ -7,6 +7,7 @@ import {searchParams} from "../../../generic/searchParams";
 const Filters: FC<CategoriesTypes> = () => {
 	let centerStyle = "flex items-center justify-between gap-4";
 	let [price, setPrice] = useState<number[]>([0, 1500]);
+	let [priceStatus, setPriceStatus] = useState<boolean>(false);
 	let axios = useAxios();
 	let [categories, setCategories] = useState<CategoriesTypes[]>();
 
@@ -44,7 +45,7 @@ const Filters: FC<CategoriesTypes> = () => {
 			range_max: price[1],
 			sort: getParam(`sort`),
 		});
-	}, [price]);
+	}, [priceStatus]);
 
 	return (
 		<div className="flex flex-col items-start justify-start">
@@ -95,6 +96,7 @@ const Filters: FC<CategoriesTypes> = () => {
 							</span>
 						</p>
 						<button
+							onClick={() => setPriceStatus(!priceStatus)}
 							type="button"
 							className="w-[6em] h-9 rounded-md bg-primary text-white mt-4 font-semibold">
 							Filter
