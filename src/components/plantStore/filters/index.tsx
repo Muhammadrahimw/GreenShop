@@ -15,7 +15,7 @@ const Filters: FC<CategoriesTypes> = () => {
 			.then((response) => {
 				setCategories(response.data);
 				setParam({
-					category: response.data[0].route_path,
+					category: getParam(`category`) || response.data[0].route_path,
 					type: getParam(`type`) || `all-plants`,
 					range_min: getParam(`range_min`) || price[0],
 					range_max: getParam(`range_max`) || price[1],

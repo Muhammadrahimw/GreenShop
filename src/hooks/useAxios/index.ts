@@ -1,4 +1,5 @@
 import axios from "axios";
+import {useProgress} from "../../generic/loading";
 
 interface PropTypes {
 	url: string;
@@ -9,8 +10,11 @@ interface PropTypes {
 }
 
 export let useAxios = () => {
+	let {setIsProgress} = useProgress();
+
 	let response = (props: PropTypes) => {
 		let {url, method = "GET", body, headers, params} = props;
+		setIsProgress(true);
 		return axios({
 			url: `${import.meta.env.VITE_BASE_URL}${url}`,
 			method,
@@ -26,7 +30,8 @@ export let useAxios = () => {
 			},
 		})
 			.then((data) => data.data)
-			.catch((error) => console.log(error));
+			.catch((error) => console.log(error))
+			.finally(() => setIsProgress(false));
 	};
 	return response;
 };
