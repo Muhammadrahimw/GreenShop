@@ -6,7 +6,7 @@ import {searchParams} from "../../../generic/searchParams";
 
 const Filters: FC<CategoriesTypes> = () => {
 	let centerStyle = "flex items-center justify-between gap-4";
-	let [price, setPrice] = useState<number[]>([39, 1230]);
+	let [price, setPrice] = useState<number[]>([0, 1500]);
 	let axios = useAxios();
 	let [categories, setCategories] = useState<CategoriesTypes[]>();
 
@@ -83,7 +83,7 @@ const Filters: FC<CategoriesTypes> = () => {
 						<Slider
 							className="text-primary"
 							range
-							defaultValue={[39, 1230]}
+							defaultValue={[0, 1500]}
 							min={0}
 							max={1500}
 							onChange={(e) => setPrice(e)}

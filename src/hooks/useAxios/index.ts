@@ -29,9 +29,14 @@ export let useAxios = () => {
 				...params,
 			},
 		})
-			.then((data) => data.data)
-			.catch((error) => console.log(error))
-			.finally(() => setIsProgress(false));
+			.then((data) => {
+				setTimeout(() => {
+					setIsProgress(false);
+				}, 80);
+
+				return data.data;
+			})
+			.catch((error) => console.log(error));
 	};
 	return response;
 };
