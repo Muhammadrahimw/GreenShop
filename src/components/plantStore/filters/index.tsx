@@ -4,28 +4,47 @@ import {useAxios} from "../../../hooks/useAxios";
 import {CategoriesTypes} from "../../../@types";
 import {searchParams} from "../../../generic/searchParams";
 
-const Filters: FC<CategoriesTypes> = (props) => {
+const Filters: FC<CategoriesTypes> = () => {
 	let centerStyle = "flex items-center justify-between gap-4";
 	let [price, setPrice] = useState<number[]>([39, 1230]);
 	let axios = useAxios();
 	let [categories, setCategories] = useState<CategoriesTypes[]>();
+
 	useEffect(() => {
 		axios({url: `/flower/category`})
-			.then((response) => setCategories(response.data))
+			.then((response) => {
+				setCategories(response.data);
+				setParam({
+					category: response.data[0].route_path,
+					type: getParam(`type`) || `all-plants`,
+					range_min: getParam(`range_min`) || price[0],
+					range_max: getParam(`range_max`) || price[1],
+					sort: getParam(`sort`) || `default-sorting`,
+				});
+			})
 			.catch((error) => console.log(error));
 	}, []);
 
-	// let typeParam: string = getParam("type") || "all-plants";
-	// let setCategory = () => {
-	// 	setParam({category: props.route_path, type: typeParam});
-	// };
-	// let {getParam, setParam} = searchParams();
+	let {getParam, setParam} = searchParams();
+	let editUrl = (url: string) => {
+		setParam({
+			category: `${url}`,
+			type: getParam(`type`) || `all-plants`,
+			range_min: price[0],
+			range_max: price[1],
+			sort: getParam(`sort`),
+		});
+	};
 
-	// let type = getParam("type");
-	// const category = getParam("category");
-	// console.log(category);
-
-	// setParam({category: "/flower/category/house-plants"})
+	useEffect(() => {
+		setParam({
+			category: getParam(`category`),
+			type: getParam(`type`),
+			range_min: price[0],
+			range_max: price[1],
+			sort: getParam(`sort`),
+		});
+	}, [price]);
 
 	return (
 		<div className="flex flex-col items-start justify-start">
@@ -34,48 +53,29 @@ const Filters: FC<CategoriesTypes> = (props) => {
 				<div className="pl-3">
 					{categories
 						? categories.map((value: CategoriesTypes) => (
-								<div key={value._id} className={centerStyle}>
-									<p className="mb-5 font-bold cursor-pointer text-primary">
+								<div
+									key={value._id}
+									className={centerStyle}
+									onClick={() => editUrl(value.route_path)}>
+									<p
+										className={`mb-5 cursor-pointer ${
+											getParam(`category`) === value.route_path
+												? `text-primary font-bold`
+												: ""
+										}`}>
 										{value.title}
 									</p>
-									<p className="mb-5 font-bold cursor-pointer text-primary">
+									<p
+										className={`mb-5 cursor-pointer ${
+											getParam(`category`) === value.route_path
+												? `text-primary font-bold`
+												: ""
+										}`}>
 										({Math.abs(value.count)})
 									</p>
 								</div>
 						  ))
 						: ""}
-					{/* <div className={centerStyle}>
-						<p className="mb-5 cursor-pointer">Potter Plants</p>
-						<p className="mb-5">(12)</p>
-					</div>
-					<div className={centerStyle}>
-						<p className="mb-5 cursor-pointer">Seeds</p>
-						<p className="mb-5">(33)</p>
-					</div>
-					<div className={centerStyle}>
-						<p className="mb-5 cursor-pointer">Small Plants</p>
-						<p className="mb-5">(12)</p>
-					</div>
-					<div className={centerStyle}>
-						<p className="mb-5 cursor-pointer">Big Plants</p>
-						<p className="mb-5">(65)</p>
-					</div>
-					<div className={centerStyle}>
-						<p className="mb-5 cursor-pointer">Succulents</p>
-						<p className="mb-5">(39)</p>
-					</div>
-					<div className={centerStyle}>
-						<p className="mb-5 cursor-pointer">Trerrariums</p>
-						<p className="mb-5">(23)</p>
-					</div>
-					<div className={centerStyle}>
-						<p className="mb-5 cursor-pointer">Gardening</p>
-						<p className="mb-5">(17)</p>
-					</div>
-					<div className={centerStyle}>
-						<p className="mb-5 cursor-pointer">Accessories</p>
-						<p className="mb-5">(19)</p>
-					</div> */}
 				</div>
 				<p className="mt-4 mb-2 text-xl font-bold">Price Range</p>
 				<div className="pl-3">

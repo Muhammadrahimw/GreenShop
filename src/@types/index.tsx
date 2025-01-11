@@ -28,3 +28,9 @@ export interface CategoriesTypes {
 	__v: number;
 	_id: string;
 }
+
+export interface CatalogTypes {
+	id: number;
+	title: string;
+	path: string;
+}
