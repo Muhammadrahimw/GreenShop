@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {useAxios} from "../../../hooks/useAxios";
 import {CatalogTypes, PlantTypes} from "../../../@types";
 import {searchParams} from "../../../generic/searchParams";
-import {useLocation} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import {Catalogs} from "../../../utils";
 import {Select, Skeleton} from "antd";
 import {useProgress} from "../../../generic/loading";
@@ -81,21 +81,22 @@ const Products = () => {
 				</div>
 			</div>
 			<div className="grid grid-cols-3 gap-10 mt-10 gap-y-[4.75em]">
-				{isProgress
-					? Array.from({length: 9}, (_, index) => {
-							return (
-								<div key={index}>
-									<Skeleton.Image active className="!w-full !h-[18.75em]" />
-									<div className="flex flex-col bg-white">
-										<Skeleton.Input active className="!w-[90%] mt-1" />
-										<Skeleton.Input active className="!w-[60%] mt-1" />
-									</div>
+				{isProgress ? (
+					Array.from({length: 9}, (_, index) => {
+						return (
+							<div key={index}>
+								<Skeleton.Image active className="!w-full !h-[18.75em]" />
+								<div className="flex flex-col bg-white">
+									<Skeleton.Input active className="!w-[90%] mt-1" />
+									<Skeleton.Input active className="!w-[60%] mt-1" />
 								</div>
-							);
-					  })
-					: plants
-					? plants.slice(0, 9).map((value: PlantTypes) => (
-							<div key={value._id}>
+							</div>
+						);
+					})
+				) : plants ? (
+					plants.slice(0, 9).map((value: PlantTypes) => (
+						<Link key={value._id} to={`/plant/${value.category}/${value._id}`}>
+							<div>
 								<div className="relative w-full h-[18.75em] hover:border-t-2 hover:border-primary group">
 									<img
 										className="object-contain w-full h-full cursor-pointer"
@@ -121,8 +122,11 @@ const Products = () => {
 									</p>
 								</div>
 							</div>
-					  ))
-					: ""}
+						</Link>
+					))
+				) : (
+					<p className="text-[3em]">Plants not defined :(</p>
+				)}
 			</div>
 		</div>
 	);
