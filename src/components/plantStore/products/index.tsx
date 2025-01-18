@@ -2,10 +2,12 @@ import {useEffect, useState} from "react";
 import {useAxios} from "../../../hooks/useAxios";
 import {CatalogTypes, PlantTypes} from "../../../@types";
 import {searchParams} from "../../../generic/searchParams";
-import {Link, useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {Catalogs} from "../../../utils";
 import {Select, Skeleton} from "antd";
 import {useProgress} from "../../../generic/loading";
+import {useReduxDispatch} from "../../../hooks/useRedux";
+import {getProductShop} from "../../../redux/shop-slice";
 
 const Products = () => {
 	const [plants, setPlants] = useState<PlantTypes[]>();
@@ -13,6 +15,8 @@ const Products = () => {
 	let axios = useAxios();
 	let {isProgress} = useProgress();
 	let {search} = useLocation();
+	let navigate = useNavigate();
+	let dispatch = useReduxDispatch();
 
 	useEffect(() => {
 		getParam(`category`)
@@ -95,34 +99,37 @@ const Products = () => {
 					})
 				) : plants ? (
 					plants.slice(0, 9).map((value: PlantTypes) => (
-						<Link key={value._id} to={`/plant/${value.category}/${value._id}`}>
-							<div>
-								<div className="relative w-full h-[18.75em] hover:border-t-2 hover:border-primary group">
-									<img
-										className="object-contain w-full h-full cursor-pointer"
-										src={`${value.main_image}`}
-										alt="plant image"
-									/>
-									<div className="absolute left-0 right-0 z-10 items-center justify-center hidden gap-2 bottom-3 group-hover:flex">
-										<div className="flex items-center justify-center p-1 bg-white rounded w-9 h-9">
-											<img src="/src/assets/icons/basket.svg" alt="basket" />
-										</div>
-										<div className="flex items-center justify-center p-1 bg-white rounded w-9 h-9">
-											<img src="/src/assets/icons/heart.svg" alt="heart" />
-										</div>
-										<div className="flex items-center justify-center p-1 bg-white rounded w-9 h-9">
-											<img src="/src/assets/icons/search.svg" alt="search" />
-										</div>
+						<div key={value._id}>
+							<div className="relative w-full h-[18.75em] hover:border-t-2 hover:border-primary group">
+								<img
+									onClick={() =>
+										navigate(`/plant/${value.category}/${value._id}`)
+									}
+									className="object-contain w-full h-full cursor-pointer"
+									src={`${value.main_image}`}
+									alt="plant image"
+								/>
+								<div className="absolute left-0 right-0 z-10 items-center justify-center hidden gap-2 bottom-3 group-hover:flex">
+									<div
+										onClick={() => dispatch(getProductShop(value))}
+										className="flex items-center justify-center p-1 bg-white rounded cursor-pointer w-9 h-9">
+										<img src="/src/assets/icons/basket.svg" alt="basket" />
+									</div>
+									<div className="flex items-center justify-center p-1 bg-white rounded w-9 h-9">
+										<img src="/src/assets/icons/heart.svg" alt="heart" />
+									</div>
+									<div className="flex items-center justify-center p-1 bg-white rounded w-9 h-9">
+										<img src="/src/assets/icons/search.svg" alt="search" />
 									</div>
 								</div>
-								<div className="bg-white">
-									<p className="mt-3">Barberton Daisy</p>
-									<p className="text-[1.15em] font-semibold text-primary">
-										${value.price}
-									</p>
-								</div>
 							</div>
-						</Link>
+							<div className="bg-white">
+								<p className="mt-3">Barberton Daisy</p>
+								<p className="text-[1.15em] font-semibold text-primary">
+									${value.price}
+								</p>
+							</div>
+						</div>
 					))
 				) : (
 					<p className="text-[3em]">Plants not defined :(</p>

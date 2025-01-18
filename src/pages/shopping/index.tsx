@@ -1,11 +1,11 @@
-import ShoppingProducts from "../../components/shopping/products";
-import TotalProducts from "../../components/shopping/totalProducts";
+import ShoppingComponent from "../../components/shopping";
+import BreadcrumbItem from "../../generic/breadCrumb";
 
 const Shopping = () => {
 	return (
-		<section className="grid grid-cols-[2fr_1fr] gap-[5em] mt-6">
-			<ShoppingProducts />
-			<TotalProducts />
+		<section className="mt-6">
+			<BreadcrumbItem pathTitle="shopping card" />
+			<ShoppingComponent />
 		</section>
 	);
 };

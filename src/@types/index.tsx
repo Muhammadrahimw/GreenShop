@@ -17,6 +17,7 @@ export interface PlantTypes {
 	views: number;
 	__v: number;
 	_id: string;
+	count?: number;
 }
 
 export interface CategoriesTypes {
@@ -39,4 +40,14 @@ export interface DataType {
 	isLoading: boolean;
 	isError: boolean;
 	data?: PlantTypes;
+}
+
+export interface couponType {
+	data: {
+		code: string;
+		discount_for: number;
+		id: number;
+		title: string;
+	};
+	message: string;
 }
