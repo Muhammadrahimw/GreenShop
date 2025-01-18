@@ -4,6 +4,7 @@ import Preview from "./preview";
 import {useQueryHandler} from "../../hooks/useQuery";
 import {DataType} from "../../@types";
 import Description from "./description";
+import BreadcrumbItem from "../../generic/breadCrumb";
 
 const ProductComp = () => {
 	let {category, id} = useParams();
@@ -14,10 +15,13 @@ const ProductComp = () => {
 	});
 
 	return (
-		<section className="mt-[6em] grid grid-cols-2 gap-12">
-			<Preview data={data} isLoading={isLoading} isError={isError} />
-			<About data={data} isLoading={isLoading} isError={isError} />
-			<Description data={data} isLoading={isLoading} isError={isError} />
+		<section className="pt-6">
+			<BreadcrumbItem pathTitle="shop" />
+			<div className="mt-[3em] grid grid-cols-2 gap-12">
+				<Preview data={data} isLoading={isLoading} isError={isError} />
+				<About data={data} isLoading={isLoading} isError={isError} />
+				<Description data={data} isLoading={isLoading} isError={isError} />
+			</div>
 		</section>
 	);
 };

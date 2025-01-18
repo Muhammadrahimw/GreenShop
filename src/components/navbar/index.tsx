@@ -37,7 +37,9 @@ const Navbar = () => {
 				<img src="/src/assets/icons/search.svg" alt="search" />
 				<BellOutlined className="text-[1.35em] text-[#3D3D3D]" />
 				<Badge count={1}>
-					<img src="/src/assets/icons/basket.svg" alt="basket" />
+					<Link to={`/plant/shopping`}>
+						<img src="/src/assets/icons/basket.svg" alt="basket" />
+					</Link>
 				</Badge>
 				<button
 					onClick={() => dispatch(setAuthorizationModalVisibility())}
