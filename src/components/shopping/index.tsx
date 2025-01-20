@@ -4,6 +4,7 @@ import {useReduxSelector} from "../../hooks/useRedux";
 import ShopProductCard from "./products";
 import {useGetCoupon} from "../../hooks/useQuery/useQueryAction";
 import {LoadingOutlined} from "@ant-design/icons";
+import {Link} from "react-router-dom";
 
 const ShoppingComponent = () => {
 	let {shop} = useReduxSelector((state) => state.shopSLice);
@@ -80,19 +81,23 @@ const ShoppingComponent = () => {
 				<div className="flex items-center justify-between gap-2 mt-6">
 					<p className="font-bold text-[#3D3D3D]">Total</p>
 					<p className="text-[1.15em] font-bold text-primary">
-						${(totalPrice - discountCouponPrice).toFixed(2)}
+						${(totalPrice - discountCouponPrice + 16).toFixed(2)}
 					</p>
 				</div>
-				<button
-					type="button"
-					className="block w-full mt-8 text-white rounded h-11 bg-primary">
-					Proceed To Checkout
-				</button>
-				<button
-					type="button"
-					className="block w-full rounded text-primary h-11">
-					Continue Shopping
-				</button>
+				<Link to={`/plant/checkout`}>
+					<button
+						type="button"
+						className="block w-full mt-8 text-white rounded h-11 bg-primary">
+						Proceed To Checkout
+					</button>
+				</Link>
+				<Link to={`/`}>
+					<button
+						type="button"
+						className="block w-full rounded text-primary h-11">
+						Continue Shopping
+					</button>
+				</Link>
 			</div>
 		</div>
 	);
