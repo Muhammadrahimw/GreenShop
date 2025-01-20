@@ -39,9 +39,19 @@ const ShoppingComponent = () => {
 					<div>Total</div>
 				</div>
 				<div>
-					{shop.map((value: PlantTypes) => (
-						<ShopProductCard key={value._id} {...value} />
-					))}
+					{shop.length ? (
+						shop.map((value: PlantTypes) => (
+							<ShopProductCard key={value._id} {...value} />
+						))
+					) : (
+						<div className="flex justify-center w-full mt-5">
+							<img
+								className="w-[7.5em]"
+								src="/src/assets/imgs/not-products.jpg"
+								alt="no products"
+							/>
+						</div>
+					)}
 				</div>
 			</div>
 			<div className="mt-6">

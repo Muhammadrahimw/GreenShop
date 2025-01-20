@@ -1,3 +1,4 @@
+import {Link} from "react-router-dom";
 import {PlantTypes} from "../../../@types";
 import {useReduxSelector} from "../../../hooks/useRedux";
 
@@ -11,6 +12,7 @@ const CheckoutOrders = () => {
 	let {coupon} = useReduxSelector((state) => state.couponSlice);
 
 	let discountCouponPrice = (totalPrice / 100) * coupon;
+	console.log(shop);
 
 	return (
 		<section>
@@ -19,15 +21,17 @@ const CheckoutOrders = () => {
 				<p className="font-medium">Products</p>
 				<p className="font-medium">Subtotal</p>
 			</div>
-			{shop.map((value: PlantTypes) => (
+			{shop.map((value: PlantTypes, idx: number) => (
 				<div
 					key={value._id}
 					className="w-full h-[4.5em] bg-[#FBFBFB] p-2 flex items-center justify-start gap-4 mt-2">
-					<img
-						src={value.main_image}
-						alt={value.short_description}
-						className="w-[3.6em] h-full object-cover"
-					/>
+					<Link to={`/plant/:${shop[idx].category}/:${shop[idx]._id}`}>
+						<img
+							src={value.main_image}
+							alt={value.short_description}
+							className="w-[3.6em] h-full object-cover"
+						/>
+					</Link>
 					<div className="text-sm w-[11em]">
 						<p className="text-[#3D3D3D] font-medium">{value.title}</p>
 						<p className="text-[#8f8f8f]">SKU: {value._id.slice(0, 13)}</p>
