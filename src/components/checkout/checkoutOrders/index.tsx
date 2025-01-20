@@ -8,7 +8,7 @@ const CheckoutOrders = () => {
 		return acc + value.price * Number(value.count);
 	}, 0);
 
-	let {coupon, isLoading} = useReduxSelector((state) => state.couponSlice);
+	let {coupon} = useReduxSelector((state) => state.couponSlice);
 
 	let discountCouponPrice = (totalPrice / 100) * coupon;
 
@@ -106,13 +106,6 @@ const CheckoutOrders = () => {
 					<label className="cursor-pointer text-[#3D3D3D]" htmlFor="cash">
 						Cash on delivery
 					</label>
-				</div>
-				<div className="flex justify-end">
-					<button
-						type="submit"
-						className="mt-10 font-medium text-white rounded h-11 bg-primary w-[21em]">
-						Place Order
-					</button>
 				</div>
 			</div>
 		</section>

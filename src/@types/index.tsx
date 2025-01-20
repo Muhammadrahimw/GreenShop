@@ -51,3 +51,26 @@ export interface couponType {
 	};
 	message: string;
 }
+
+export interface BlogType {
+	content: string;
+	created_at: string;
+	created_by: string;
+	reaction_length: number;
+	short_description: string;
+	title: string;
+	views: number;
+	__v: number;
+	_id: string;
+}
+export interface BlogTypeApi {
+	data?: BlogType[];
+	isLoading: boolean;
+	isError: boolean;
+}
+
+export interface BlogTypeApiItem {
+	data?: BlogType;
+	isLoading: boolean;
+	isError: boolean;
+}

@@ -4,6 +4,8 @@ import Product from "../pages/product";
 import Layout from "../components/layout";
 import Shopping from "../pages/shopping";
 import Checkout from "../pages/checkout";
+import Blog from "../pages/blog";
+import BlogUserPost from "../components/blog/blogUserPost";
 
 export let Root = createBrowserRouter([
 	{
@@ -25,6 +27,14 @@ export let Root = createBrowserRouter([
 			{
 				path: `/plant/checkout`,
 				element: <Checkout />,
+			},
+			{
+				path: `/blog`,
+				element: <Blog />,
+			},
+			{
+				path: "/blog/:id/:user_id",
+				element: <BlogUserPost />,
 			},
 		],
 	},

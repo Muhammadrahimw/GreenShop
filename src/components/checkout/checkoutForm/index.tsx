@@ -5,7 +5,6 @@ const CheckoutFormComponent = () => {
 	const {
 		register,
 		handleSubmit,
-		reset,
 		formState: {errors},
 	} = useForm();
 
@@ -182,6 +181,13 @@ const CheckoutFormComponent = () => {
 						<p className="text-[#3D3D3D]">Order notes (optional)</p>
 						<TextArea className="mt-2" />
 					</div>
+				</div>
+				<div className="col-span-2">
+					<button
+						type="submit"
+						className="mt-10 font-medium text-white rounded h-11 bg-primary w-[21em]">
+						Place Order
+					</button>
 				</div>
 			</form>
 		</section>
