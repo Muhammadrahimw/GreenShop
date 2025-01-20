@@ -25,7 +25,7 @@ const CheckoutOrders = () => {
 				<div
 					key={value._id}
 					className="w-full h-[4.5em] bg-[#FBFBFB] p-2 flex items-center justify-start gap-4 mt-2">
-					<Link to={`/plant/:${shop[idx].category}/:${shop[idx]._id}`}>
+					<Link to={`/plant/${shop[idx].category}/${shop[idx]._id}`}>
 						<img
 							src={value.main_image}
 							alt={value.short_description}
