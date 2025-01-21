@@ -1,46 +1,40 @@
-import {useEffect, useState} from "react";
-import {useAxios} from "../../../hooks/useAxios";
 import {CatalogTypes, PlantTypes} from "../../../@types";
 import {searchParams} from "../../../generic/searchParams";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {Catalogs} from "../../../utils";
 import {Select, Skeleton} from "antd";
-import {useProgress} from "../../../generic/loading";
 import {useReduxDispatch} from "../../../hooks/useRedux";
 import {getProductShop} from "../../../redux/shop-slice";
+import {useQueryHandler} from "../../../hooks/useQuery";
 
 const Products = () => {
-	const [plants, setPlants] = useState<PlantTypes[]>();
-	let {getParam, setParam} = searchParams();
-	let axios = useAxios();
-	let {isProgress} = useProgress();
-	let {search} = useLocation();
-	let navigate = useNavigate();
-	let dispatch = useReduxDispatch();
+	const {getParam, setParam} = searchParams();
+	const navigate = useNavigate();
+	const dispatch = useReduxDispatch();
+	const category: string = getParam("category") || "house-plants";
+	const type: string = getParam("type") || "all-plants";
+	const sort: string = getParam("sort") || "default-sorting";
+	const range_min: number = Number(getParam("range_min")) || 0;
+	const range_max: number = Number(getParam("range_max")) || 1500;
 
-	useEffect(() => {
-		getParam(`category`)
-			? axios({
-					url: `/flower/category/${getParam("category") || "house-plants"}`,
-					params: {
-						type: getParam("type") || "all-plants",
-						sort: getParam("sort"),
-						range_min: getParam("range_min"),
-						range_max: getParam("range_max"),
-					},
-			  })
-					.then((response) => setPlants(response.data))
-					.catch((error) => console.log(error))
-			: "";
-	}, [search]);
+	const {data, isLoading, isError} = useQueryHandler({
+		pathname: `/flower/category/${category}/${type})}/${sort}/${range_min}/${range_max}`,
+		url: `/flower/category/${category}`,
+		params: {
+			type: type,
+			sort: sort,
+			range_min: range_min,
+			range_max: range_max,
+		},
+	});
 
-	let optionValue = (value: string) => {
+	const optionValue = (value: string) => {
 		setParam({
-			category: getParam(`category`),
-			type: getParam(`type`),
-			range_min: getParam(`range_min`),
-			range_max: getParam(`range_max`),
+			category: category,
+			type: type,
 			sort: value,
+			range_min: range_min,
+			range_max: range_max,
 		});
 	};
 
@@ -53,11 +47,11 @@ const Products = () => {
 							key={value.id}
 							onClick={() =>
 								setParam({
-									category: `${getParam(`category`)}`,
+									category: category,
 									type: `${value.path}`,
-									range_min: getParam(`range_min`),
-									range_max: getParam(`range_max`),
-									sort: getParam(`sort`),
+									sort: sort,
+									range_min: range_min,
+									range_max: range_max,
 								})
 							}
 							className={`cursor-pointer hover-underline-animation2 ${
@@ -74,7 +68,7 @@ const Products = () => {
 					<div className="flex items-center gap-2">
 						<Select
 							onChange={optionValue}
-							defaultValue={getParam(`sort`) || `default-sorting`}
+							defaultValue={sort}
 							options={[
 								{value: "default-sorting", label: "Default Sorting"},
 								{value: "the-cheapest", label: "The Chepaest"},
@@ -85,55 +79,51 @@ const Products = () => {
 				</div>
 			</div>
 			<div className="grid grid-cols-3 gap-10 mt-10 gap-y-[4.75em]">
-				{isProgress ? (
-					Array.from({length: 9}, (_, index) => {
-						return (
-							<div key={index}>
-								<Skeleton.Image active className="!w-full !h-[18.75em]" />
-								<div className="flex flex-col bg-white">
-									<Skeleton.Input active className="!w-[90%] mt-1" />
-									<Skeleton.Input active className="!w-[60%] mt-1" />
-								</div>
-							</div>
-						);
-					})
-				) : plants ? (
-					plants.slice(0, 9).map((value: PlantTypes) => (
-						<div key={value._id}>
-							<div className="relative w-full h-[18.75em] hover:border-t-2 hover:border-primary group">
-								<img
-									onClick={() =>
-										navigate(`/plant/${value.category}/${value._id}`)
-									}
-									className="object-contain w-full h-full cursor-pointer"
-									src={`${value.main_image}`}
-									alt="plant image"
-								/>
-								<div className="absolute left-0 right-0 z-10 items-center justify-center hidden gap-2 bottom-3 group-hover:flex">
-									<div
-										onClick={() => dispatch(getProductShop(value))}
-										className="flex items-center justify-center p-1 bg-white rounded cursor-pointer w-9 h-9">
-										<img src="/src/assets/icons/basket.svg" alt="basket" />
-									</div>
-									<div className="flex items-center justify-center p-1 bg-white rounded w-9 h-9">
-										<img src="/src/assets/icons/heart.svg" alt="heart" />
-									</div>
-									<div className="flex items-center justify-center p-1 bg-white rounded w-9 h-9">
-										<img src="/src/assets/icons/search.svg" alt="search" />
+				{isLoading || isError
+					? Array.from({length: 9}, (_, index) => {
+							return (
+								<div key={index}>
+									<Skeleton.Image active className="!w-full !h-[18.75em]" />
+									<div className="flex flex-col bg-white">
+										<Skeleton.Input active className="!w-[90%] mt-1" />
+										<Skeleton.Input active className="!w-[60%] mt-1" />
 									</div>
 								</div>
+							);
+					  })
+					: data.slice(0, 9).map((value: PlantTypes) => (
+							<div key={value._id}>
+								<div className="relative w-full h-[18.75em] hover:border-t-2 hover:border-primary group">
+									<img
+										onClick={() =>
+											navigate(`/plant/${value.category}/${value._id}`)
+										}
+										className="object-contain w-full h-full cursor-pointer"
+										src={`${value.main_image}`}
+										alt="plant image"
+									/>
+									<div className="absolute left-0 right-0 z-10 items-center justify-center hidden gap-2 bottom-3 group-hover:flex">
+										<div
+											onClick={() => dispatch(getProductShop(value))}
+											className="flex items-center justify-center p-1 bg-white rounded cursor-pointer w-9 h-9">
+											<img src="/src/assets/icons/basket.svg" alt="basket" />
+										</div>
+										<div className="flex items-center justify-center p-1 bg-white rounded w-9 h-9">
+											<img src="/src/assets/icons/heart.svg" alt="heart" />
+										</div>
+										<div className="flex items-center justify-center p-1 bg-white rounded w-9 h-9">
+											<img src="/src/assets/icons/search.svg" alt="search" />
+										</div>
+									</div>
+								</div>
+								<div className="bg-white">
+									<p className="mt-3">Barberton Daisy</p>
+									<p className="text-[1.15em] font-semibold text-primary">
+										${value.price}
+									</p>
+								</div>
 							</div>
-							<div className="bg-white">
-								<p className="mt-3">Barberton Daisy</p>
-								<p className="text-[1.15em] font-semibold text-primary">
-									${value.price}
-								</p>
-							</div>
-						</div>
-					))
-				) : (
-					<p className="text-[3em]">Plants not defined :(</p>
-				)}
+					  ))}
 			</div>
 		</div>
 	);

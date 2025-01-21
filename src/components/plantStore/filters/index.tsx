@@ -1,49 +1,42 @@
-import {Slider} from "antd";
+import {Skeleton, Slider} from "antd";
 import {useEffect, useState} from "react";
-import {useAxios} from "../../../hooks/useAxios";
 import {CategoriesTypes} from "../../../@types";
 import {searchParams} from "../../../generic/searchParams";
+import {useQueryHandler} from "../../../hooks/useQuery";
 
 const Filters = () => {
-	let centerStyle = "flex items-center justify-between gap-4";
-	let [price, setPrice] = useState<number[]>([0, 1500]);
-	let [priceStatus, setPriceStatus] = useState<boolean>(false);
-	let axios = useAxios();
-	let [categories, setCategories] = useState<CategoriesTypes[]>();
+	const centerStyle = "flex items-center justify-between gap-4";
+	const [price, setPrice] = useState<number[]>([0, 1500]);
+	const [priceStatus, setPriceStatus] = useState<boolean>(false);
+	const {getParam, setParam} = searchParams();
+	const category: string = getParam("category") || "house-plants";
+	const type: string = getParam("type") || "all-plants";
+	const sort: string = getParam("sort") || "default-sorting";
+	const range_min: number = Number(getParam("range_min")) || 0;
+	const range_max: number = Number(getParam("range_max")) || 1500;
 
-	useEffect(() => {
-		axios({url: `/flower/category`})
-			.then((response) => {
-				setCategories(response.data);
-				setParam({
-					category: getParam(`category`) || response.data[0].route_path,
-					type: getParam(`type`) || `all-plants`,
-					range_min: getParam(`range_min`) || price[0],
-					range_max: getParam(`range_max`) || price[1],
-					sort: getParam(`sort`) || `default-sorting`,
-				});
-			})
-			.catch((error) => console.log(error));
-	}, []);
+	const {data, isLoading, isError} = useQueryHandler({
+		pathname: `/flower/category`,
+		url: `/flower/category`,
+	});
 
-	let {getParam, setParam} = searchParams();
-	let editUrl = (url: string) => {
+	const editUrl = (url: string) => {
 		setParam({
 			category: `${url}`,
-			type: getParam(`type`) || `all-plants`,
-			range_min: price[0],
-			range_max: price[1],
-			sort: getParam(`sort`),
+			type: type,
+			range_min: range_min,
+			range_max: range_max,
+			sort: sort,
 		});
 	};
 
 	useEffect(() => {
 		setParam({
-			category: getParam(`category`),
-			type: getParam(`type`),
+			category: category,
+			type: type,
 			range_min: price[0],
 			range_max: price[1],
-			sort: getParam(`sort`),
+			sort: sort,
 		});
 	}, [priceStatus]);
 
@@ -52,31 +45,37 @@ const Filters = () => {
 			<div className="px-4 py-3 rounded-sm tracking-wide text-blackColor bg-[#FBFBFB] w-[20em]">
 				<p className="mb-2 text-xl font-bold">Categories</p>
 				<div className="pl-3">
-					{categories
-						? categories.map((value: CategoriesTypes) => (
-								<div
-									key={value._id}
-									className={centerStyle}
-									onClick={() => editUrl(value.route_path)}>
-									<p
-										className={`mb-5 cursor-pointer ${
-											getParam(`category`) === value.route_path
-												? `text-primary font-bold`
-												: ""
-										}`}>
-										{value.title}
-									</p>
-									<p
-										className={`mb-5 cursor-pointer ${
-											getParam(`category`) === value.route_path
-												? `text-primary font-bold`
-												: ""
-										}`}>
-										({Math.abs(value.count)})
-									</p>
-								</div>
-						  ))
-						: ""}
+					{isLoading || isError ? (
+						<>
+							{Array.from({length: 4}).map((_, idx) => (
+								<Skeleton key={idx} className="!w-full mt-2" />
+							))}
+						</>
+					) : (
+						data.map((value: CategoriesTypes) => (
+							<div
+								key={value._id}
+								className={centerStyle}
+								onClick={() => editUrl(value.route_path)}>
+								<p
+									className={`mb-5 cursor-pointer ${
+										getParam(`category`) === value.route_path
+											? `text-primary font-bold`
+											: ""
+									}`}>
+									{value.title}
+								</p>
+								<p
+									className={`mb-5 cursor-pointer ${
+										getParam(`category`) === value.route_path
+											? `text-primary font-bold`
+											: ""
+									}`}>
+									({Math.abs(value.count)})
+								</p>
+							</div>
+						))
+					)}
 				</div>
 				<p className="mt-4 mb-2 text-xl font-bold">Price Range</p>
 				<div className="pl-3">
