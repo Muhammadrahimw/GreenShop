@@ -6,7 +6,7 @@ import Showcase from "../../components/showcase";
 const Home = () => {
 	window.scrollTo(0, 0);
 	return (
-		<div className="w-[90%] mx-auto">
+		<div className="w-full mx-auto">
 			<Showcase />
 			<PlantStore />
 			<About />

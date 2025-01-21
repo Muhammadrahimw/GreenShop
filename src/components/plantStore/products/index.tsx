@@ -11,7 +11,7 @@ const Products = () => {
 	const {getParam, setParam} = searchParams();
 	const navigate = useNavigate();
 	const dispatch = useReduxDispatch();
-	const category: string = getParam("category") || "house-plants";
+	const category: string = getParam("category") || "accessories";
 	const type: string = getParam("type") || "all-plants";
 	const sort: string = getParam("sort") || "default-sorting";
 	const range_min: number = Number(getParam("range_min")) || 0;

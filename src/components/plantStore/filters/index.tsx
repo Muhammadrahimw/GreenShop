@@ -9,7 +9,7 @@ const Filters = () => {
 	const [price, setPrice] = useState<number[]>([0, 1500]);
 	const [priceStatus, setPriceStatus] = useState<boolean>(false);
 	const {getParam, setParam} = searchParams();
-	const category: string = getParam("category") || "house-plants";
+	const category: string = getParam("category") || "accessories";
 	const type: string = getParam("type") || "all-plants";
 	const sort: string = getParam("sort") || "default-sorting";
 	const range_min: number = Number(getParam("range_min")) || 0;
