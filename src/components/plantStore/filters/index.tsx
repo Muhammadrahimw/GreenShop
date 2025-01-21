@@ -1,10 +1,10 @@
 import {Slider} from "antd";
-import {FC, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {useAxios} from "../../../hooks/useAxios";
 import {CategoriesTypes} from "../../../@types";
 import {searchParams} from "../../../generic/searchParams";
 
-const Filters: FC<CategoriesTypes> = () => {
+const Filters = () => {
 	let centerStyle = "flex items-center justify-between gap-4";
 	let [price, setPrice] = useState<number[]>([0, 1500]);
 	let [priceStatus, setPriceStatus] = useState<boolean>(false);
