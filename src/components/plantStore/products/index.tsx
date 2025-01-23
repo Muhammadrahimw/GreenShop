@@ -3,14 +3,19 @@ import {searchParams} from "../../../generic/searchParams";
 import {useNavigate} from "react-router-dom";
 import {Catalogs} from "../../../utils";
 import {Select, Skeleton} from "antd";
-import {useReduxDispatch} from "../../../hooks/useRedux";
+import {useReduxDispatch, useReduxSelector} from "../../../hooks/useRedux";
 import {getProductShop} from "../../../redux/shop-slice";
 import {useQueryHandler} from "../../../hooks/useQuery";
+import {setAuthorizationModalVisibility} from "../../../redux/modal-slice";
+import {wishlistProduct} from "../../../redux/wishlist-slice";
+import {HeartFilled, HeartOutlined} from "@ant-design/icons";
 
 const Products = () => {
 	const {getParam, setParam} = searchParams();
 	const navigate = useNavigate();
 	const dispatch = useReduxDispatch();
+	const {isAuthenticated} = useReduxSelector((state) => state.authSlice);
+	const {wishlist} = useReduxSelector((state) => state.wishlistSlice);
 	const category: string = getParam("category") || "accessories";
 	const type: string = getParam("type") || "all-plants";
 	const sort: string = getParam("sort") || "default-sorting";
@@ -108,8 +113,20 @@ const Products = () => {
 											className="flex items-center justify-center p-1 bg-white rounded cursor-pointer w-9 h-9">
 											<img src="/src/assets/icons/basket.svg" alt="basket" />
 										</div>
-										<div className="flex items-center justify-center p-1 bg-white rounded w-9 h-9">
-											<img src="/src/assets/icons/heart.svg" alt="heart" />
+										<div
+											onClick={() =>
+												isAuthenticated
+													? dispatch(wishlistProduct(value))
+													: dispatch(setAuthorizationModalVisibility())
+											}
+											className="flex items-center justify-center p-1 bg-white rounded w-9 h-9">
+											{wishlist.some(
+												(product: PlantTypes) => product._id === value._id
+											) ? (
+												<HeartFilled className="text-[1.35em] cursor-pointer text-red-500" />
+											) : (
+												<HeartOutlined className="text-[1.35em] cursor-pointer" />
+											)}
 										</div>
 										<div className="flex items-center justify-center p-1 bg-white rounded w-9 h-9">
 											<img src="/src/assets/icons/search.svg" alt="search" />

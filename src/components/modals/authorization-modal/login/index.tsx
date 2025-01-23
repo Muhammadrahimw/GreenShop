@@ -1,5 +1,5 @@
 import {useForm} from "react-hook-form";
-import {useReduxDispatch, useReduxSelector} from "../../../../hooks/useRedux";
+import {useReduxDispatch} from "../../../../hooks/useRedux";
 import {setAuthorizationModalVisibility} from "../../../../redux/modal-slice";
 import {useAxios} from "../../../../hooks/useAxios";
 import {UserDataType} from "../../../../@types";
@@ -40,7 +40,6 @@ const Login = () => {
 		reset();
 		dispatch(setAuthorizationModalVisibility());
 	};
-	console.log(useReduxSelector((state) => state.authSlice).isAuthenticated);
 	return (
 		<div className="py-10 px-[2em]">
 			<p>Enter your username and password to login.</p>

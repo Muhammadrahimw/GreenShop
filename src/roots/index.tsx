@@ -6,6 +6,7 @@ import Shopping from "../pages/shopping";
 import Checkout from "../pages/checkout";
 import Blog from "../pages/blog";
 import BlogUserPost from "../components/blog/blogUserPost";
+import Profile from "../pages/profile";
 
 export let Root = createBrowserRouter([
 	{
@@ -33,8 +34,12 @@ export let Root = createBrowserRouter([
 				element: <Blog />,
 			},
 			{
-				path: "/blog/:id/:user_id",
+				path: `/blog/:id/:user_id`,
 				element: <BlogUserPost />,
+			},
+			{
+				path: `/profile`,
+				element: <Profile />,
 			},
 		],
 	},
