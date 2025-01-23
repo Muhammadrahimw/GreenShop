@@ -1,14 +1,13 @@
 import {useForm} from "react-hook-form";
-import {useReduxDispatch} from "../../../../hooks/useRedux";
+import {useReduxDispatch, useReduxSelector} from "../../../../hooks/useRedux";
 import {setAuthorizationModalVisibility} from "../../../../redux/modal-slice";
 import {useAxios} from "../../../../hooks/useAxios";
-import useSignIn from "react-auth-kit/hooks/useSignIn";
-// import {UserDataType} from "../../../../@types";
+import {UserDataType} from "../../../../@types";
+import {login} from "../../../../redux/auth-slice";
 
 const Login = () => {
 	let axios = useAxios();
 	let dispatch = useReduxDispatch();
-	let {signIn}: any = useSignIn();
 
 	let {
 		register,
@@ -18,19 +17,30 @@ const Login = () => {
 	} = useForm();
 
 	let onSubmit = (data: any) => {
-		axios({url: "/user/sign-in", body: data, method: "POST"}).then((data) =>
-			console.log(data)
-		);
-		let succes = signIn({
-			token: data.data.token,
-			expiresIn: 3600,
-			tokenType: "Bearer",
-			authState: data.data.user,
-		});
+		axios({url: "/user/sign-in", body: data, method: "POST"})
+			.then((data: UserDataType) => {
+				dispatch(
+					login({
+						token: data.data.token,
+						tokenType: `Bearer`,
+						userState: JSON.stringify({
+							_id: data.data.user._id,
+							name: data.data.user.name,
+							surname: data.data.user.surname,
+							email: data.data.user.email,
+							phone_number: "",
+							username: data.data.user.username,
+						}),
+					})
+				);
+				localStorage.setItem(`token`, data.data.token);
+			})
+			.catch((error) => console.log(error));
+
 		reset();
 		dispatch(setAuthorizationModalVisibility());
 	};
-
+	console.log(useReduxSelector((state) => state.authSlice).isAuthenticated);
 	return (
 		<div className="py-10 px-[2em]">
 			<p>Enter your username and password to login.</p>
@@ -42,6 +52,7 @@ const Login = () => {
 						id="email"
 						placeholder="almamun_uxui@outlook.com"
 						type="email"
+						value={`raimjonov05@mail.ru`}
 						{...register(`email`, {required: `email is required!`})}
 					/>
 					{errors.email && (
@@ -55,6 +66,7 @@ const Login = () => {
 						id="password"
 						placeholder="password"
 						type="password"
+						value={`12345678`}
 						{...register(`password`, {required: `password is required!`})}
 					/>
 					{errors.email && (
