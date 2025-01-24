@@ -9,7 +9,6 @@ const Navbar = () => {
 	let dispatch = useReduxDispatch();
 	let {shop} = useReduxSelector((state) => state.shopSLice);
 	let {isAuthenticated} = useReduxSelector((state) => state.authSlice);
-	console.log(isAuthenticated);
 
 	return (
 		<header className="flex items-center justify-between gap-4 py-6 border-b border-primary border-opacity-20">
@@ -44,14 +43,13 @@ const Navbar = () => {
 						<img src="/src/assets/icons/basket.svg" alt="basket" />
 					</Link>
 				</Badge>
-				<button
-					onClick={() => dispatch(setAuthorizationModalVisibility())}
-					className="w-[6em] h-9 rounded bg-primary text-white flex items-center gap-1 justify-center"
-					type="button"
-					title="login">
-					<p className="mb-[0.1em]">
-						{isAuthenticated ? (
-							<Link to={`/profile`}>
+				{isAuthenticated ? (
+					<Link to={`/profile/details`}>
+						<button
+							className="w-[6em] h-9 rounded bg-primary text-white flex items-center gap-1 justify-center"
+							type="button"
+							title="login">
+							<p className="mb-[0.1em]">
 								{
 									JSON.parse(
 										document.cookie.replace(
@@ -60,14 +58,20 @@ const Navbar = () => {
 										)
 									).name
 								}
-							</Link>
-						) : (
-							<>
-								<LoginOutlined /> Login
-							</>
-						)}
-					</p>
-				</button>
+							</p>
+						</button>
+					</Link>
+				) : (
+					<button
+						onClick={() => dispatch(setAuthorizationModalVisibility())}
+						className="w-[6em] h-9 rounded bg-primary text-white flex items-center gap-1 justify-center"
+						type="button"
+						title="login">
+						<p className="mb-[0.1em]">
+							<LoginOutlined /> Login
+						</p>
+					</button>
+				)}
 			</nav>
 		</header>
 	);

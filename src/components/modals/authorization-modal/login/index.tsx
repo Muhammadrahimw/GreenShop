@@ -24,12 +24,7 @@ const Login = () => {
 						token: data.data.token,
 						tokenType: `Bearer`,
 						userState: JSON.stringify({
-							_id: data.data.user._id,
-							name: data.data.user.name,
-							surname: data.data.user.surname,
-							email: data.data.user.email,
-							phone_number: "",
-							username: data.data.user.username,
+							...data.data.user,
 						}),
 					})
 				);

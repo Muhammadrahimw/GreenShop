@@ -7,6 +7,12 @@ import Checkout from "../pages/checkout";
 import Blog from "../pages/blog";
 import BlogUserPost from "../components/blog/blogUserPost";
 import Profile from "../pages/profile";
+import InformationComp from "../components/profile/information";
+import Address from "../components/profile/address";
+import Orders from "../components/profile/orders";
+import Wishlist from "../components/profile/wishlist";
+import OwnProducts from "../components/profile/ownProducts";
+import PrivateRoute from "./provate-route";
 
 export let Root = createBrowserRouter([
 	{
@@ -39,7 +45,35 @@ export let Root = createBrowserRouter([
 			},
 			{
 				path: `/profile`,
-				element: <Profile />,
+				element: <PrivateRoute />,
+				children: [
+					{
+						path: `/profile`,
+						element: <Profile />,
+						children: [
+							{
+								path: `details`,
+								element: <InformationComp />,
+							},
+							{
+								path: `address`,
+								element: <Address />,
+							},
+							{
+								path: `orders`,
+								element: <Orders />,
+							},
+							{
+								path: `wishlist`,
+								element: <Wishlist />,
+							},
+							{
+								path: `products`,
+								element: <OwnProducts />,
+							},
+						],
+					},
+				],
 			},
 		],
 	},

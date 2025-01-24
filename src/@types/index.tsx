@@ -1,3 +1,5 @@
+import {ReactNode} from "react";
+
 export interface PlantTypes {
 	category: string;
 	comments: string[];
@@ -114,4 +116,46 @@ export interface UserDataType {
 			__v: number;
 		};
 	};
+}
+
+export interface UserStateType {
+	_id: string;
+	name: string;
+	surname: string;
+	password: string;
+	username: string;
+	permission: {
+		create: boolean;
+		update: boolean;
+		delete: boolean;
+		read: boolean;
+	};
+	email: string;
+	profile_photo: string;
+	followers: any[];
+	billing_address: {
+		country: string;
+		town: string;
+		street_address: string;
+		extra_address: string;
+		state: string;
+		zip: string;
+	};
+	user_type: string;
+	create_post_limit: 0;
+	create_account_limit: 0;
+	create_plant_limit: 0;
+	hashtags: any[];
+	wishlist: any[];
+	created_by: string;
+	order_list: any[];
+	created_at: string;
+	__v: number;
+}
+
+export interface MyAccountPointsType {
+	id: number;
+	title: string;
+	path: string;
+	icon: ReactNode;
 }
