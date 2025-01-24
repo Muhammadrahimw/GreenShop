@@ -31,7 +31,6 @@ const Login = () => {
 				localStorage.setItem(`token`, data.data.token);
 			})
 			.catch((error) => console.log(error));
-
 		reset();
 		dispatch(setAuthorizationModalVisibility());
 	};

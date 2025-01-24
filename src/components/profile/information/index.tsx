@@ -4,13 +4,10 @@ import {useState} from "react";
 import {useForm} from "react-hook-form";
 import {GetUserInfo} from "../../../generic/getUserInfo";
 import {useAxios} from "../../../hooks/useAxios";
-import {useReduxDispatch} from "../../../hooks/useRedux";
-import {login} from "../../../redux/auth-slice";
 
 const InformationComp = () => {
 	const [photo, setPhoto] = useState(``);
 	const axios = useAxios();
-	const dispatch = useReduxDispatch();
 
 	const {
 		register,
@@ -38,15 +35,6 @@ const InformationComp = () => {
 		})
 			.then((data) => console.log(data))
 			.catch((error) => console.log(error));
-		// dispatch(
-		// 	login({
-		// 		token: localStorage.getItem(`token`),
-		// 		tokenType: `Bearer`,
-		// 		userState: JSON.stringify({
-		// 			...data.data.user,
-		// 		}),
-		// 	})
-		// );
 	};
 
 	const handleChange = (info: any) => {

@@ -8,7 +8,7 @@ const Navbar = () => {
 	let {pathname} = useLocation();
 	let dispatch = useReduxDispatch();
 	let {shop} = useReduxSelector((state) => state.shopSLice);
-	let {isAuthenticated} = useReduxSelector((state) => state.authSlice);
+	let {isAuthenticated} = useReduxSelector((state) => state.authSlice); 
 
 	return (
 		<header className="flex items-center justify-between gap-4 py-6 border-b border-primary border-opacity-20">

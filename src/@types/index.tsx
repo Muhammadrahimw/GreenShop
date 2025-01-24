@@ -105,9 +105,9 @@ export interface UserDataType {
 				zip: string;
 			};
 			user_type: string;
-			create_post_limit: 0;
-			create_account_limit: 0;
-			create_plant_limit: 0;
+			create_post_limit: number;
+			create_account_limit: number;
+			create_plant_limit: number;
 			hashtags: any[];
 			wishlist: any[];
 			created_by: string;
@@ -142,9 +142,9 @@ export interface UserStateType {
 		zip: string;
 	};
 	user_type: string;
-	create_post_limit: 0;
-	create_account_limit: 0;
-	create_plant_limit: 0;
+	create_post_limit: number;
+	create_account_limit: number;
+	create_plant_limit: number;
 	hashtags: any[];
 	wishlist: any[];
 	created_by: string;
@@ -158,4 +158,16 @@ export interface MyAccountPointsType {
 	title: string;
 	path: string;
 	icon: ReactNode;
+}
+
+export interface MakeOrderType {
+	shop_list: PlantTypes[];
+	billing_address: {
+		name: string;
+		surname: string;
+	};
+	extra_shop_info: {
+		total: number;
+		method: string;
+	};
 }

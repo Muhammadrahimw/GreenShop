@@ -1,15 +1,39 @@
 import TextArea from "antd/es/input/TextArea";
 import {useForm} from "react-hook-form";
+import {MakeOrderType, PlantTypes} from "../../../@types";
+import {useReduxSelector} from "../../../hooks/useRedux";
+import {useAxios} from "../../../hooks/useAxios";
 
 const CheckoutFormComponent = () => {
+	const axios = useAxios();
+	const shop: PlantTypes[] = useReduxSelector((state) => state.shopSLice.shop);
+
+	const totalPrice = shop.reduce((acc: number, value: PlantTypes) => {
+		return acc + value.price * Number(value.count);
+	}, 0);
+
 	const {
 		register,
 		handleSubmit,
 		formState: {errors},
 	} = useForm();
 
-	const onSubmit = (data: any) => {
-		console.log(data, `submit`);
+	const onSubmit = (halfData: any) => {
+		const data: MakeOrderType = {
+			shop_list: shop,
+			billing_address: {
+				name: halfData.name,
+				surname: halfData.surname,
+			},
+			extra_shop_info: {
+				total: totalPrice,
+				method: "cash-on-delivery",
+			},
+		};
+
+		axios({url: `/order/make-order`, method: "POST", body: data})
+			.then((data) => console.log(data))
+			.catch((error) => console.log(error));
 	};
 
 	return (
@@ -185,7 +209,7 @@ const CheckoutFormComponent = () => {
 				<div className="col-span-2">
 					<button
 						type="submit"
-						className="mt-10 font-medium text-white rounded h-11 bg-primary w-[21em]">
+						className="w-full mt-10 font-medium text-white rounded h-11 bg-primary">
 						Place Order
 					</button>
 				</div>

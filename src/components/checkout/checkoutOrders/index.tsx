@@ -12,7 +12,6 @@ const CheckoutOrders = () => {
 	let {coupon} = useReduxSelector((state) => state.couponSlice);
 
 	let discountCouponPrice = (totalPrice / 100) * coupon;
-	console.log(shop);
 
 	return (
 		<section>
