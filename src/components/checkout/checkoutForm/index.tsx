@@ -1,11 +1,18 @@
 import TextArea from "antd/es/input/TextArea";
 import {useForm} from "react-hook-form";
 import {MakeOrderType, PlantTypes} from "../../../@types";
-import {useReduxSelector} from "../../../hooks/useRedux";
+import {useReduxDispatch, useReduxSelector} from "../../../hooks/useRedux";
 import {useAxios} from "../../../hooks/useAxios";
+import {
+	setConfirmationModalVisibility,
+	setModalIsLoading,
+} from "../../../redux/modal-slice";
+import {LoadingOutlined} from "@ant-design/icons";
 
 const CheckoutFormComponent = () => {
 	const axios = useAxios();
+	const dispatch = useReduxDispatch();
+	const {modalIsLoading} = useReduxSelector((state) => state.modalSlice);
 	const shop: PlantTypes[] = useReduxSelector((state) => state.shopSLice.shop);
 
 	const totalPrice = shop.reduce((acc: number, value: PlantTypes) => {
@@ -19,6 +26,7 @@ const CheckoutFormComponent = () => {
 	} = useForm();
 
 	const onSubmit = (halfData: any) => {
+		dispatch(setModalIsLoading());
 		const data: MakeOrderType = {
 			shop_list: shop,
 			billing_address: {
@@ -32,7 +40,11 @@ const CheckoutFormComponent = () => {
 		};
 
 		axios({url: `/order/make-order`, method: "POST", body: data})
-			.then((data) => console.log(data))
+			.then((data) => {
+				console.log(data);
+				dispatch(setModalIsLoading());
+				dispatch(setConfirmationModalVisibility());
+			})
 			.catch((error) => console.log(error));
 	};
 
@@ -210,7 +222,11 @@ const CheckoutFormComponent = () => {
 					<button
 						type="submit"
 						className="w-full mt-10 font-medium text-white rounded h-11 bg-primary">
-						Place Order
+						{modalIsLoading ? (
+							<LoadingOutlined className="text-xl" />
+						) : (
+							<p>Place order</p>
+						)}
 					</button>
 				</div>
 			</form>

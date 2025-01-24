@@ -171,3 +171,10 @@ export interface MakeOrderType {
 		method: string;
 	};
 }
+
+export interface trackingOrderType extends MakeOrderType {
+	created_at: string;
+	created_by: string;
+	_v: number;
+	_id: string;
+}
