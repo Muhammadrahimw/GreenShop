@@ -3,11 +3,10 @@ import {trackingOrderType} from "../../../@types";
 import {useQueryHandler} from "../../../hooks/useQuery";
 import {useReduxDispatch} from "../../../hooks/useRedux";
 import {setTrackModalVisibility} from "../../../redux/modal-slice";
+import {TrackOrderModal} from "../../modals/order-modal/track";
+import {setOrderData} from "../../../redux/order-slice";
 
 const Orders = () => {
-	// const today = new Date();
-	// const date = today.toDateString();
-	// console.log(data?.slice(70)[2]);
 	const dispatch = useReduxDispatch();
 
 	const {data, isLoading, isError} = useQueryHandler({
@@ -16,6 +15,7 @@ const Orders = () => {
 	});
 
 	const getDetailOrder = (value: trackingOrderType) => {
+		dispatch(setOrderData(value));
 		dispatch(setTrackModalVisibility());
 	};
 
@@ -33,13 +33,13 @@ const Orders = () => {
 					))}
 				</div>
 			) : (
-				data?.slice(70).map((value: trackingOrderType) => (
+				data?.slice(45).map((value: trackingOrderType) => (
 					<div
 						key={value._id}
 						className="grid grid-cols-4 gap-3 px-2 mt-5 tracking-wide">
 						<div className="border-r">
 							<p>Order Number</p>
-							<b>{value._id.slice(8)}..</b>
+							<b>{value._id.slice(0, 18)}..</b>
 						</div>
 						<div className="border-r">
 							<p>Date</p>
@@ -60,6 +60,7 @@ const Orders = () => {
 					</div>
 				))
 			)}
+			<TrackOrderModal />
 		</section>
 	);
 };

@@ -2,9 +2,11 @@ import {Modal} from "antd";
 import {useReduxDispatch, useReduxSelector} from "../../../../hooks/useRedux";
 import {setConfirmationModalVisibility} from "../../../../redux/modal-slice";
 import {PlantTypes} from "../../../../@types";
+import {useNavigate} from "react-router-dom";
 
 export const ConfirmationModal = () => {
 	const dispatch = useReduxDispatch();
+	const navigate = useNavigate();
 	const {confirmationModalVisibility} = useReduxSelector(
 		(state) => state.modalSlice
 	);
@@ -47,17 +49,17 @@ export const ConfirmationModal = () => {
 				<h2 className="mt-5 text-3xl font-bold border-b border-opacity-50 border-primary">
 					Order Details
 				</h2>
-				{shop.map((value: PlantTypes) => (
+				{shop.map((value: PlantTypes, idx: number) => (
 					<div
 						key={value._id}
 						className="w-full h-[4.5em] bg-[#FBFBFB] p-2 flex items-center justify-start gap-4 mt-2">
 						<img
-							// onClick={() =>
-							// 	navigate(`/plant/${shop[idx].category}/${shop[idx]._id}`)
-							// }
+							onClick={() =>
+								navigate(`/plant/${shop[idx].category}/${shop[idx]._id}`)
+							}
 							src={value.main_image}
 							alt={value.short_description}
-							className="w-[3.6em] h-full object-cover ml-4"
+							className="w-[3.6em] h-full object-cover ml-4 cursor-pointer"
 						/>
 						<div className="text-sm w-[25em]">
 							<strong className="text-[#3D3D3D]">{value.title}</strong>
@@ -84,6 +86,7 @@ export const ConfirmationModal = () => {
 				</p>
 				<div className="flex justify-center">
 					<button
+						onClick={() => navigate(`/profile/orders`)}
 						className="px-3 py-3 text-white rounded bg-primary mt-[3.5em] tracking-wider"
 						type="button">
 						Track your order

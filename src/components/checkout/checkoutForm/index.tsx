@@ -8,6 +8,7 @@ import {
 	setModalIsLoading,
 } from "../../../redux/modal-slice";
 import {LoadingOutlined} from "@ant-design/icons";
+import {ConfirmationModal} from "../../modals/order-modal/confirmation";
 
 const CheckoutFormComponent = () => {
 	const axios = useAxios();
@@ -230,6 +231,7 @@ const CheckoutFormComponent = () => {
 					</button>
 				</div>
 			</form>
+			<ConfirmationModal />
 		</section>
 	);
 };
