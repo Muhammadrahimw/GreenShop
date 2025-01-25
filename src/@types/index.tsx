@@ -178,3 +178,16 @@ export interface trackingOrderType extends MakeOrderType {
 	_v: number;
 	_id: string;
 }
+
+export interface billingAddressType {
+	_id: string;
+	name: string;
+	surname: string;
+	country: string;
+	town: string;
+	street_address: string;
+	state: string;
+	zip: string;
+	email: string;
+	phone_number: string;
+}

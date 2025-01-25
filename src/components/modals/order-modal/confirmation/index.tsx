@@ -39,7 +39,7 @@ export const ConfirmationModal = () => {
 					</div>
 					<div className="border-r">
 						<p>Total</p>
-						<b>${totalPrice}</b>
+						<b>${totalPrice?.toFixed(2)}</b>
 					</div>
 					<div>
 						<p>Payment Method</p>
@@ -77,7 +77,9 @@ export const ConfirmationModal = () => {
 				</div>
 				<div className="flex items-center justify-between gap-4 mt-8 border-b border-opacity-50 border-primary">
 					<p className="text-[1.15em]">Total</p>
-					<p className="text-[1.15em] font-bold text-primary">${totalPrice}</p>
+					<p className="text-[1.15em] font-bold text-primary">
+						${totalPrice?.toFixed(2)}
+					</p>
 				</div>
 				<p className="px-[6em] mt-4 text-center">
 					Your order is currently being processed. You will receive an order

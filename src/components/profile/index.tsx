@@ -3,9 +3,9 @@ import AccountComp from "./account";
 
 const ProfileComponent = () => {
 	return (
-		<div className="grid grid-cols-3 gap-9 mt-[3.5em]">
+		<div className="grid grid-cols-[0.7fr_2fr] gap-9 mt-[3.5em]">
 			<AccountComp />
-			<div className="col-span-2">
+			<div className="">
 				<Outlet />
 			</div>
 		</div>

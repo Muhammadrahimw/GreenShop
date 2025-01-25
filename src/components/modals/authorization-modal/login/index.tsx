@@ -45,7 +45,7 @@ const Login = () => {
 						id="email"
 						placeholder="almamun_uxui@outlook.com"
 						type="email"
-						value={`raimjonov05@mail.ru`}
+						value={`muqalla21@gmail.com`}
 						{...register(`email`, {required: `email is required!`})}
 					/>
 					{errors.email && (

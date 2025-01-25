@@ -39,8 +39,12 @@ const authSlice = createSlice({
 			deleteCookie(`userState`);
 			state.isAuthenticated = false;
 		},
+		userStateUpdate(state, {payload}) {
+			deleteCookie(`userState`);
+			document.cookie = `userState=${payload}; expires=${expiresDate}; path=/;`;
+		},
 	},
 });
 
-export const {login, logout} = authSlice.actions;
+export const {login, logout, userStateUpdate} = authSlice.actions;
 export default authSlice.reducer;
