@@ -46,7 +46,7 @@ const Navbar = () => {
 				{isAuthenticated ? (
 					<Link to={`/profile/details`}>
 						<button
-							className="w-[6em] h-9 rounded bg-primary text-white flex items-center gap-1 justify-center"
+							className="flex items-center justify-center gap-1 px-2 text-white rounded h-9 bg-primary"
 							type="button"
 							title="login">
 							<p className="mb-[0.1em]">

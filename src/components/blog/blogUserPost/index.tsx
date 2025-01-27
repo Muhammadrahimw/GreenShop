@@ -1,4 +1,4 @@
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useQueryHandler} from "../../../hooks/useQuery";
 import {BlogTypeApiItem} from "../../../@types";
 import {Avatar, Skeleton} from "antd";
@@ -11,6 +11,7 @@ import {
 
 const BlogUserPost = () => {
 	const {id, user_id} = useParams();
+	const navigate = useNavigate();
 	const {
 		data: user,
 		isLoading: isLoadingUser,
@@ -53,7 +54,11 @@ const BlogUserPost = () => {
 				<div>
 					<div className="flex justify-between item-end">
 						<div className="flex items-center gap-4">
-							<Avatar className="w-[50px] h-[50px]" src={user?.profile_photo} />
+							<Avatar
+								onClick={() => navigate(`/user/${user._id}`)}
+								className="w-[50px] h-[50px] cursor-pointer"
+								src={user?.profile_photo}
+							/>
 							<div>
 								<h2 className="font-bold text-[18px]">
 									{user?.name} {user?.surname}

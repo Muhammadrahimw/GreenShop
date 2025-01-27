@@ -33,7 +33,7 @@ const Orders = () => {
 					))}
 				</div>
 			) : (
-				data?.slice(45).map((value: trackingOrderType) => (
+				data?.slice(0).map((value: trackingOrderType) => (
 					<div
 						key={value._id}
 						className="grid grid-cols-4 gap-3 px-2 mt-5 tracking-wide">

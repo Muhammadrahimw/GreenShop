@@ -13,6 +13,7 @@ import Orders from "../components/profile/orders";
 import Wishlist from "../components/profile/wishlist";
 import OwnProducts from "../components/profile/ownProducts";
 import PrivateRoute from "./provate-route";
+import {User} from "../pages/user";
 
 export let Root = createBrowserRouter([
 	{
@@ -72,6 +73,16 @@ export let Root = createBrowserRouter([
 								element: <OwnProducts />,
 							},
 						],
+					},
+				],
+			},
+			{
+				path: `/user`,
+				element: <PrivateRoute />,
+				children: [
+					{
+						path: `/user/:id`,
+						element: <User />,
 					},
 				],
 			},

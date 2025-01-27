@@ -38,7 +38,7 @@ const Wishlist = () => {
 							<div className="relative w-full h-[18.75em] hover:border-t-2 hover:border-primary group">
 								<img
 									onClick={() =>
-										navigate(`/plant/${value?.category}/${value?._id}`)
+										navigate(`/plant/${value.category}/${value?._id}`)
 									}
 									className="object-contain w-full h-full cursor-pointer"
 									src={`${value?.main_image}`}

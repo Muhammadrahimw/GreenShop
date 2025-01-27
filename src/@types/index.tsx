@@ -191,3 +191,9 @@ export interface billingAddressType {
 	email: string;
 	phone_number: string;
 }
+
+export interface userSectionsTitleType {
+	id: string;
+	title: string;
+	Component: React.FC;
+}
