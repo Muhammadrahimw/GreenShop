@@ -45,7 +45,7 @@ const Login = () => {
 						id="email"
 						placeholder="almamun_uxui@outlook.com"
 						type="email"
-						value={`muqalla21@gmail.com`}
+						value={`sobirovmuhammadrahim@gmail.com`}
 						{...register(`email`, {required: `email is required!`})}
 					/>
 					{errors.email && (
@@ -59,7 +59,7 @@ const Login = () => {
 						id="password"
 						placeholder="password"
 						type="password"
-						value={`12345678`}
+						value={`12345`}
 						{...register(`password`, {required: `password is required!`})}
 					/>
 					{errors.email && (

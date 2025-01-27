@@ -218,7 +218,11 @@ const Address = () => {
 						<button
 							type="submit"
 							className="w-full mt-2 text-white rounded h-11 bg-primary">
-							{addressLoading ? <LoadingOutlined className="text-xl" /> : `Place Order`}
+							{addressLoading ? (
+								<LoadingOutlined className="text-xl" />
+							) : (
+								`Place Order`
+							)}
 						</button>
 					</div>
 				</form>

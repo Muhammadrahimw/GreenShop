@@ -1,9 +1,12 @@
 import {useForm} from "react-hook-form";
 import {useReduxDispatch} from "../../../../hooks/useRedux";
 import {setAuthorizationModalVisibility} from "../../../../redux/modal-slice";
+import {useAxios} from "../../../../hooks/useAxios";
+import {login} from "../../../../redux/auth-slice";
 
 const Register = () => {
 	let dispatch = useReduxDispatch();
+	let axios = useAxios();
 
 	let {
 		register,
@@ -13,8 +16,27 @@ const Register = () => {
 		formState: {errors},
 	} = useForm();
 
-	let onSubmit = (data: any) => {
-		console.log(data);
+	let onSubmit = (info: any) => {
+		let data = {
+			name: info.username,
+			surname: info.surname,
+			password: info.password,
+			email: info.email,
+		};
+		axios({url: `/user/sign-up`, method: "POST", body: data})
+			.then((data) => {
+				dispatch(
+					login({
+						token: data.data.token,
+						tokenType: `Bearer`,
+						userState: JSON.stringify({
+							...data.data.user,
+						}),
+					})
+				);
+				localStorage.setItem(`token`, data.data.token);
+			})
+			.catch((error) => console.log(error));
 		reset();
 		dispatch(setAuthorizationModalVisibility());
 	};
@@ -28,13 +50,28 @@ const Register = () => {
 					<input
 						className="w-full h-12 pl-3 border rounded outline-none border-grayColor"
 						id="username"
-						placeholder="Username"
+						placeholder="Name"
 						type="text"
 						{...register(`username`, {required: `username is required!`})}
 					/>
 					{errors.email && (
 						<p className="mt-1 text-red-500">
 							{errors?.username?.message?.toString()}
+						</p>
+					)}
+				</div>
+				<div className="mt-5">
+					<label htmlFor="surname"></label>
+					<input
+						className="w-full h-12 pl-3 border rounded outline-none border-grayColor"
+						id="surname"
+						placeholder="Surname"
+						type="text"
+						{...register(`surname`, {required: `surname is required!`})}
+					/>
+					{errors.surname && (
+						<p className="mt-1 text-red-500">
+							{errors?.surname?.message?.toString()}
 						</p>
 					)}
 				</div>
