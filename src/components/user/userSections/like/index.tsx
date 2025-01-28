@@ -17,7 +17,7 @@ export const Like = () => {
 	const data: UserStateType =
 		queryClient.getQueryData(`user-${id}`) ?? ({} as UserStateType);
 	return (
-		<section className="grid grid-cols-3 gap-5">
+		<section className="grid grid-cols-4 gap-5">
 			{data.wishlist?.map((value: PlantTypes) => (
 				<div key={value?._id}>
 					<div className="relative w-full h-[18.75em] hover:border-t-2 hover:border-primary group">

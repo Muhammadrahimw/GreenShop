@@ -7,16 +7,49 @@ import {
 	SendOutlined,
 	MinusCircleOutlined,
 	UserOutlined,
+	LoadingOutlined,
 } from "@ant-design/icons";
+import {useAxios} from "../../../hooks/useAxios";
+import {GetUserInfo} from "../../../generic/getUserInfo";
+import {useState} from "react";
 
 export const UserHeader = () => {
 	const {id} = useParams();
+	const axios = useAxios();
+	const userInfo = GetUserInfo();
 	const queryClient = useQueryClient();
+	const [followLoading, setFollowLoading] = useState<boolean>(false);
 	const btnStyle = `bg-primary px-4 flex items-center gap-2 cursor-pointer py-2 rounded text-white`;
 	const data: UserStateType =
 		queryClient.getQueryData(`user-${id}`) ?? ({} as UserStateType);
 
-	console.log(data);
+	const followFunc = () => {
+		setFollowLoading(true);
+		axios({
+			url: `/user/follow`,
+			method: "POST",
+			body: {_id: id},
+		})
+			.then((data) => {
+				setFollowLoading(false);
+				console.log(data);
+			})
+			.catch((error) => {
+				setFollowLoading(false);
+				console.log(error);
+			});
+	};
+
+	const unFollowFunc = () => {
+		setFollowLoading(true);
+		axios({
+			url: `/user/unfollow`,
+			method: "POST",
+			body: {_id: id},
+		})
+			.then((data) => console.log(data))
+			.catch((error) => console.log(error));
+	};
 
 	return (
 		<section className="mt-12">
@@ -31,8 +64,13 @@ export const UserHeader = () => {
 				<div className="flex items-center gap-6">
 					<div className="w-[10em] h-[10em] rounded-full border-4 border-primary translate-y-[-3.5em]">
 						<img
-							className="object-contain w-full h-full rounded-full"
-							src={`${data.profile_photo}`}
+							className="object-cover w-full h-full rounded-full"
+							src={`${
+								data?.profile_photo ===
+								`http://res.cloudinary.com/dj28bsagl/image/upload/v1705654703/cold6y8pracws33q3xes.jpg`
+									? `https://skmahdi.wordpress.com/wp-content/uploads/2013/03/masjid-nabawi1.jpg?w=1024`
+									: `https://skmahdi.wordpress.com/wp-content/uploads/2013/03/masjid-nabawi1.jpg?w=1024`
+							} `}
 							alt="user photo"
 						/>
 					</div>
@@ -52,18 +90,40 @@ export const UserHeader = () => {
 						<SendOutlined />
 						Send Invitation
 					</button>
-					<button className={`${btnStyle}`} type="button">
-						<PlusCircleOutlined />
-						Follow
-					</button>
-					{/* <button className={`${btnStyle}`} type="button">
-						<UserOutlined />
-						You
-					</button>
-					<button className={`${btnStyle}`} type="button">
-						<MinusCircleOutlined />
-						Unfollow
-					</button> */}
+					{data._id === userInfo._id ? (
+						<button className={`${btnStyle}`} type="button">
+							<UserOutlined />
+							You
+						</button>
+					) : userInfo.followers.includes(data._id) ? (
+						<button
+							onClick={() => unFollowFunc()}
+							className={`${btnStyle}`}
+							type="button">
+							{followLoading ? (
+								<LoadingOutlined />
+							) : (
+								<>
+									<MinusCircleOutlined />
+									Unfollow
+								</>
+							)}
+						</button>
+					) : (
+						<button
+							onClick={() => followFunc()}
+							className={`${btnStyle}`}
+							type="button">
+							{followLoading ? (
+								<LoadingOutlined />
+							) : (
+								<>
+									<PlusCircleOutlined />
+									Follow
+								</>
+							)}
+						</button>
+					)}
 				</div>
 			</div>
 		</section>

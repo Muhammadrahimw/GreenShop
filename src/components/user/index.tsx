@@ -5,12 +5,11 @@ import {UserSections} from "./userSections";
 
 const UserComponent = () => {
 	const {id} = useParams();
-	const {data, isLoading, isError} = useQueryHandler({
+	const {} = useQueryHandler({
 		pathname: `user-${id}`,
 		url: `/user/by_id/${id}`,
 	});
 
-	data;
 	return (
 		<>
 			<UserHeader />

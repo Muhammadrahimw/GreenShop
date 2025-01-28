@@ -8,6 +8,7 @@ export const Products = () => {
 	const queryClient = useQueryClient();
 	const data: UserStateType =
 		queryClient.getQueryData(`user-${id}`) ?? ({} as UserStateType);
+
 	return (
 		<section className="grid grid-cols-5 gap-4">
 			{data.order_list.length ? (

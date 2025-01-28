@@ -1,14 +1,15 @@
 import {BellOutlined, LoginOutlined} from "@ant-design/icons";
-import {Badge} from "antd";
+import {Badge, Popover} from "antd";
 import {Link, useLocation} from "react-router-dom";
 import {useReduxDispatch, useReduxSelector} from "../../hooks/useRedux";
 import {setAuthorizationModalVisibility} from "../../redux/modal-slice";
+import {Notification} from "./notification";
 
 const Navbar = () => {
 	let {pathname} = useLocation();
 	let dispatch = useReduxDispatch();
 	let {shop} = useReduxSelector((state) => state.shopSLice);
-	let {isAuthenticated} = useReduxSelector((state) => state.authSlice); 
+	let {isAuthenticated} = useReduxSelector((state) => state.authSlice);
 
 	return (
 		<header className="flex items-center justify-between gap-4 py-6 border-b border-primary border-opacity-20">
@@ -37,7 +38,12 @@ const Navbar = () => {
 			</nav>
 			<nav className="flex items-center gap-7">
 				<img src="/src/assets/icons/search.svg" alt="search" />
-				<BellOutlined className="text-[1.35em] text-[#3D3D3D]" />
+				<Popover
+					content={<Notification />}
+					title={`Notifications`}
+					trigger={"click"}>
+					<BellOutlined className="text-[1.35em] text-[#3D3D3D]" />
+				</Popover>
 				<Badge count={shop.length}>
 					<Link to={`/plant/shopping`}>
 						<img src="/src/assets/icons/basket.svg" alt="basket" />

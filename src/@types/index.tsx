@@ -197,3 +197,17 @@ export interface userSectionsTitleType {
 	title: string;
 	Component: React.FC;
 }
+
+export interface notification_stack {
+	type: string;
+	message: string;
+	user_id: string;
+	time_stamp: number;
+}
+
+export interface notificationType {
+	_id: string;
+	created_at: string;
+	belongs_to: string;
+	notification_stack: notification_stack[];
+}
